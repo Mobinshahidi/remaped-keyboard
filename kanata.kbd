@@ -1,0 +1,79 @@
+(defcfg
+  process-unmapped-keys yes
+  log-layer-changes no
+)
+
+(defsrc
+  caps tab a s d f h j k l ; spc
+  q w e r t y u i o p [ ]
+  ins lsft rsft
+)
+
+(defvar
+  tap-time 200
+  hold-time 400
+)
+
+;; Smart fast typing detection - prevents accidental modifiers when typing quickly
+(deftemplate charmod (char mod)
+  (switch 
+    ;; If any of the last 3 keys were pressed within 200ms, just output the character
+    ((key-timing 3 less-than 200)) $char break
+    ;; Otherwise, use tap-hold-release for modifiers
+    () (tap-hold-release 150 400 $char $mod) break
+  )
+)
+
+(defalias
+  ;; Smart home row mods with fast typing protection
+  a (t! charmod a lmet)
+  s (t! charmod s lalt) 
+  d (t! charmod d lsft)
+  f (t! charmod f lctl)
+  j (t! charmod j rctl)
+  k (t! charmod k rsft)
+  l (t! charmod l ralt)
+  ; (t! charmod ; rmet)
+  
+  ;; Space: tap for space, hold for arrows+numbers layer
+  spc (tap-hold-release $tap-time $hold-time spc (layer-toggle arrows))
+  
+  ;; Tab: just tab (no esc on hold)
+  tab tab
+  
+  ;; Shift keys with new functions
+  lsft esc
+  rsft del
+  
+  ;; Caps lock: backspace
+  caps bspc
+  
+  ;; Insert: permanently switch to default mode (normal keyboard)
+  ins (layer-switch default)
+  
+  ;; Arrow keys
+  h-arr left
+  j-arr down  
+  k-arr up
+  l-arr right
+)
+
+(deflayer base
+  @caps @tab @a @s @d @f h @j @k @l @; @spc
+  q w e r t y u i o p [ ]
+  @ins @lsft @rsft
+)
+
+;; Default mode: everything behaves like a normal keyboard
+(deflayer default
+  caps tab a s d f h j k l ; spc
+  q w e r t y u i o p [ ]
+  (layer-switch base) lsft rsft
+)
+
+;; Arrows + Numbers layer (activated by holding Space)
+(deflayer arrows
+  _ _ _ _ lsft _ @h-arr @j-arr @k-arr @l-arr rsft _
+  1 2 3 4 5 6 7 8 9 0 - =
+  _ _ _
+)
