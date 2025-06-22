@@ -5,7 +5,7 @@
 (defsrc
   caps tab a s d f h j k l ; spc
   q w e r t y u i o p [ ]
-  ins lsft rsft
+  ins lsft m , . / rsft
 )
 (defvar
   tap-time 200
@@ -53,20 +53,24 @@
   k-arr (fork up pgup (lsft rsft))
   l-arr (fork right end (lsft rsft))
 )
+;; Base layer
 (deflayer base
   @caps @tab @a @s @d @f h @j @k @l @; @spc
   q w e r t y u i o p [ ]
-  @ins @lsft @rsft
+  @ins @lsft m , . / @rsft
 )
 ;; Default mode: everything behaves like a normal keyboard
 (deflayer default
   caps tab a s d f h j k l ; spc
   q w e r t y u i o p [ ]
-  (layer-switch base) lsft rsft
+  (layer-switch base) lsft m , . / rsft
 )
 ;; Arrows + Numbers layer (activated by holding Space)
 (deflayer arrows
   _ _ _ _ _ _ @h-arr @j-arr @k-arr @l-arr _ _
   1 2 3 4 5 6 7 8 9 0 - =
-  _ _ _
+  _ _ home pgdn pgup end _
 )
+
+
+
