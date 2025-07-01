@@ -1,6 +1,11 @@
 (defcfg
   process-unmapped-keys yes
   log-layer-changes no
+  linux-dev (
+    /dev/input/by-path/platform-i8042-serio-0-event-kbd
+    /dev/input/by-id/usb-*-event-kbd
+  )
+  linux-continue-if-no-devs-found yes
 )
 (defsrc
   caps tab a s d f h j k l ; spc
@@ -46,12 +51,18 @@
 
   ;; Insert: permanently switch to default mode (normal keyboard)
   ins (layer-switch default)
-  
-  ;; Arrow keys with shift modifiers
-  h-arr (fork left home (lsft rsft))
-  j-arr (fork down pgdn (lsft rsft))
-  k-arr (fork up pgup (lsft rsft))
-  l-arr (fork right end (lsft rsft))
+
+  ;; Arrow keys - just arrows, no fork
+  h-arr left
+  j-arr down  
+  k-arr up
+  l-arr right
+
+  ;; Navigation keys
+  m-home home
+  ,-pgdn pgdn
+  .-pgup pgup
+  /-end end
 )
 ;; Base layer
 (deflayer base
