@@ -1,0 +1,42 @@
+# nvim ~/.config/sxhkd/sxhkdrc 
+# pkill sxhkd
+# sxhkd &
+
+# Alt + Delete for double-click
+alt + Delete
+    xdotool click --repeat 2 --delay 50 1
+
+# Mouse movement with arrow keys
+alt + Up
+    xdotool mousemove_relative -- 0 -15
+
+alt + Down
+    xdotool mousemove_relative -- 0 15
+
+alt + Left
+    xdotool mousemove_relative -- -15 0
+
+alt + Right
+    xdotool mousemove_relative -- 15 0
+
+# Alt + Escape for left click
+alt + Escape
+    xdotool click 1
+
+# Alt + \ for right click (no conflicts!)
+alt + backslash
+    xdotool click 3
+
+# Scroll functionality
+alt + Page_Up
+    xdotool click 4
+
+alt + Page_Down
+    xdotool click 5
+
+# Horizontal scroll
+alt + Home
+    xdotool click 6
+
+alt + End
+    xdotool click 7
